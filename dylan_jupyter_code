@@ -1,0 +1,26 @@
+import pyautogui
+pyautogui.PAUSE = 1
+pyautogui.FAILSAFE = True
+pyautogui.size()
+width, height = pyautogui.size()
+#for i in range(10):
+    #pyautogui.moveTo(100, 100, duration=0.25)
+    #pyautogui.moveTo(200, 100, duration=0.25)
+    #pyautogui.moveTo(200, 200, duration=0.25)
+    #pyautogui.moveTo(100, 200, duration=0.25)
+#for i in range(10):
+      #pyautogui.moveRel(100, 0, duration=0.25)
+      #pyautogui.moveRel(0, 100, duration=0.25)
+      #pyautogui.moveRel(-100, 0, duration=0.25)
+      #pyautogui.moveRel(0, -100, duration=0.25)
+      #pyautogui.position()
+    
+#print('Press Ctrl-C to quit.')
+# Get and print the mouse coordinates.
+
+#pyautogui.moveTo(250, 250, duration=0.25)
+x, y = pyautogui.position()
+positionStr = 'X: ' + str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
+pyautogui.click(250, 250)
+print(positionStr)
+#pyautogui.getWindowsWithTitle("Calculator")[0].maximize()
