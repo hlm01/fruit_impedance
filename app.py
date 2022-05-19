@@ -1,9 +1,81 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
 
-root = Tk()
-frm = ttk.Frame(root, padding=10)
-frm.grid()
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
-root.mainloop()
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        # root window
+        self.title('Fruit Ripeness:')
+        self.geometry('500x200')
+        self.resizable(False,False)
+        self.style = ttk.Style(self)
+
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=3)
+
+        #slider current value
+        current_value = tk.DoubleVar()
+        def get_current_value():
+            return '{: .2f}'.format(current_value.get())
+        
+        def slider_changed(event):
+            value_label.configure(text=get_current_value())
+        
+        #label for slider
+        slider_label = ttk.Label(
+            self,
+            text = 'Ripeness:'
+        )
+
+        slider_label.grid(
+            column=0,
+            row=0,
+            sticky='w'
+        )
+
+        #slider
+        slider = ttk.Scale(
+            self,
+            from_=0,
+            to=100,
+            orient='horizontal',
+            command=slider_changed,
+            variable=current_value
+        )
+
+        slider.grid(
+            column=1,
+            row=0,
+            sticky='we'
+        )
+
+        # current value label
+        current_value_label = ttk.Label(
+            self,
+            text = 'Current Value:'
+        )
+
+        current_value_label.grid(
+            row = 1,
+            columnspan=2,
+            sticky='n',
+            ipadx=10,
+            ipady=10
+        )
+
+        #value label
+        value_label = ttk.Label(
+            self,
+            text=get_current_value()
+        )
+        value_label.grid(
+            row=2,
+            columnspan=2,
+            sticky='n'
+        )
+
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
