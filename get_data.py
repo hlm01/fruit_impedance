@@ -8,7 +8,7 @@ window = app.window(title = "AD5933 Beta Version REV1.0", found_index = 0)
 
 window.StartSweep.click_input()
 
-sleep(2)
+sleep(1)
 
 window.OK.click_input()
 window.DownloadImpedanceData.click_input()
