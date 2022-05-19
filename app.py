@@ -15,9 +15,12 @@ class App(tk.Tk):
         self.columnconfigure(1, weight=3)
 
         #slider current value
-        current_value = tk.DoubleVar()
+        #current_value = tk.DoubleVar()
+        current_value = 5
+        
         def get_current_value():
-            return '{: .2f}'.format(current_value.get())
+            #return '{: .2f}'.format(current_value.get())
+            return current_value
         
         def slider_changed(event):
             value_label.configure(text=get_current_value())
@@ -40,7 +43,7 @@ class App(tk.Tk):
             from_=0,
             to=100,
             orient='horizontal',
-            command=slider_changed,
+            #command=slider_changed,
             variable=current_value
         )
 
