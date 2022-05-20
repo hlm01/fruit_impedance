@@ -14,3 +14,6 @@ def get_data():
     window.OK.click_input()
     window.DownloadImpedanceData.click_input()
     send_keys('{ENTER}')
+
+if __name__ == "__main__":
+    get_data()
