@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+import get_data
+import algorithm
+
 
 class App(tk.Tk):
     def __init__(self):
@@ -14,6 +17,10 @@ class App(tk.Tk):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=3)
 
+        # make a button to measure
+        self.button = ttk.Button(self, text = "Measure")
+        self.button["command"] = self.button_clicked
+        self.button.grid(row = 3, columnspan = 2,pady=20)
         #slider current value
         #current_value = tk.DoubleVar()
         current_value = 5
@@ -77,6 +84,13 @@ class App(tk.Tk):
             columnspan=2,
             sticky='n'
         )
+
+    # runs script to collect data
+    def button_clicked(self):
+        print("clicked")
+        get_data.get_data()
+        self.measurement = algorithm.make_dictionary()
+        print(self.measurement)
 
 
 if __name__ == "__main__":
