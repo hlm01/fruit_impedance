@@ -114,7 +114,6 @@ class App(tk.Tk):
         self.canvas.get_tk_widget().grid(column = 1,padx = 30, sticky="N")
     # runs script to collect data
     def button_clicked(self):
-        print("clicked")
         get_data.get_data()
         sleep(2)
         self.measurement = algorithm.make_dictionary()
