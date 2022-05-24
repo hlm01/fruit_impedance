@@ -11,7 +11,7 @@ from time import sleep
 class App(tk.Tk):
     # impedance constant thresholds
     MAX = 640000
-    HIGH = 400000
+    HIGH = 380000
     LOW = 280000
     MIN = 40000
 
@@ -39,15 +39,15 @@ class App(tk.Tk):
                                    mode='determinate', length=400)
         self.bar.grid(columnspan=2, row=0, sticky="n", pady=30)
         # current value label
-        current_value_label = ttk.Label(
+        self.current_value_label = ttk.Label(
             self,
-            text='Current Value:'
+            text='Start'
         )
         left_label = ttk.Label(self, text='ripeness')
 
 
         left_label.grid(row=0, sticky = "E")
-        current_value_label.grid(
+        self.current_value_label.grid(
             row=1,
             columnspan=2,
             sticky='n',
@@ -84,10 +84,13 @@ class App(tk.Tk):
         raw = self.measurement[10000]
         if raw > self.HIGH:
             value = 20
+            self.current_value_label['text'] = "Low Ripe"
         elif raw < self.LOW:
             value = 50
+            self.current_value_label['text'] = "Medium Ripe"
         else:
             value = 80
+            self.current_value_label['text'] = "Very Ripe"
         self.bar['value'] = value
         
 if __name__ == "__main__":
