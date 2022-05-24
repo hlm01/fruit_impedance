@@ -90,6 +90,15 @@ class App(tk.Tk):
             value = 80
         self.bar['value'] = value
         
+    def button_clicked1(self):
+        get_data.get_data()
+        sleep(2)
+        self.measurement = algorithm.make_dictionary()
+        self.plot_data()
+        raw = self.measurement[10000]+self.measurement[30000]/2/340000
+        value = raw*100
+        self.bar['value'] = value
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
