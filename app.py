@@ -9,38 +9,41 @@ from time import sleep
 
 
 class App(tk.Tk):
+    #impedance constant thresholds
+    HIGH = 400000
+    LOW = 280000
     def __init__(self):
         super().__init__()
 
         # root window
         self.title('Fruit Ripeness:')
         self.geometry('700x700')
-        self.resizable(False,False)
+        self.resizable(False, False)
         self.style = ttk.Style(self)
-
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=3)
 
         # make a button to measure
-        self.button = ttk.Button(self, text = "Measure")
+        self.button = ttk.Button(self, text="Measure")
         self.button["command"] = self.button_clicked
-        self.button.grid(row = 3, columnspan = 2,pady=20)
-        #slider current value
+        self.button.grid(row=3, columnspan=2, pady=20)
+        # slider current value
         #current_value = tk.DoubleVar()
         current_value = 5
-        
+
         self.setup_plot()
+
         def get_current_value():
-            #return '{: .2f}'.format(current_value.get())
+            # return '{: .2f}'.format(current_value.get())
             return current_value
-        
+
         def slider_changed(event):
             value_label.configure(text=get_current_value())
-        
-        #label for slider
+
+        # label for slider
         slider_label = ttk.Label(
             self,
-            text = 'Ripeness:'
+            text='Ripeness:'
         )
 
         slider_label.grid(
@@ -49,13 +52,13 @@ class App(tk.Tk):
             sticky='w'
         )
 
-        #slider
+        # slider
         slider = ttk.Scale(
             self,
             from_=0,
             to=100,
             orient='horizontal',
-            #command=slider_changed,
+            # command=slider_changed,
             variable=current_value
         )
 
@@ -63,25 +66,25 @@ class App(tk.Tk):
             column=1,
             row=0,
             sticky='we',
-            pady = 25,
-            padx = 10
+            pady=25,
+            padx=10
         )
 
         # current value label
         current_value_label = ttk.Label(
             self,
-            text = 'Current Value:'
+            text='Current Value:'
         )
 
         current_value_label.grid(
-            row = 1,
+            row=1,
             columnspan=2,
             sticky='n',
             ipadx=10,
             ipady=10
         )
 
-        #value label
+        # value label
         value_label = ttk.Label(
             self,
             text=get_current_value()
@@ -95,23 +98,23 @@ class App(tk.Tk):
     # plot the data with matplotlib
     def setup_plot(self):
         # draw figure
-        fig = Figure(figsize = (10,7), dpi=50)
-        self.canvas = FigureCanvasTkAgg(fig, master = self)
+        fig = Figure(figsize=(10, 7), dpi=50)
+        self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.plot1 = fig.add_subplot()
 
-       
     def plot_data(self):
         self.plot1.cla()
         freq = list(self.measurement.keys())
         values = list(self.measurement.values())
 
         vmax, vmin = max(values), min(values)
-        self.plot1.plot(freq,values) # plot values
+        self.plot1.plot(freq, values)  # plot values
         self.plot1.set_xlabel("frequency hz")
         self.plot1.set_ylabel("impedance ohms")
-        self.plot1.set_ylim(vmin*0.9,vmax*1.1)
+        self.plot1.set_ylim(vmin*0.9, vmax*1.1)
         self.canvas.draw()
-        self.canvas.get_tk_widget().grid(column = 1,padx = 30, sticky="N")
+        self.canvas.get_tk_widget().grid(column=1, padx=30, sticky="N")
+    
     # runs script to collect data
     def button_clicked(self):
         get_data.get_data()
