@@ -9,15 +9,18 @@ from time import sleep
 
 
 class App(tk.Tk):
-    #impedance constant thresholds
+    # impedance constant thresholds
+    MAX = 640000
     HIGH = 400000
     LOW = 280000
+    MIN = 40000
+
     def __init__(self):
         super().__init__()
 
         # root window
         self.title('Fruit Ripeness:')
-        self.geometry('700x700')
+        self.geometry('700x700+1000+0')
         self.resizable(False, False)
         self.style = ttk.Style(self)
         self.columnconfigure(0, weight=1)
@@ -27,72 +30,29 @@ class App(tk.Tk):
         self.button = ttk.Button(self, text="Measure")
         self.button["command"] = self.button_clicked
         self.button.grid(row=3, columnspan=2, pady=20)
-        # slider current value
-        #current_value = tk.DoubleVar()
-        current_value = 5
 
         self.setup_plot()
 
-        def get_current_value():
-            # return '{: .2f}'.format(current_value.get())
-            return current_value
-
-        def slider_changed(event):
-            value_label.configure(text=get_current_value())
-
-        # label for slider
-        slider_label = ttk.Label(
-            self,
-            text='Ripeness:'
-        )
-
-        slider_label.grid(
-            column=0,
-            row=0,
-            sticky='w'
-        )
-
-        # slider
-        slider = ttk.Scale(
-            self,
-            from_=0,
-            to=100,
-            orient='horizontal',
-            # command=slider_changed,
-            variable=current_value
-        )
-
-        slider.grid(
-            column=1,
-            row=0,
-            sticky='we',
-            pady=25,
-            padx=10
-        )
-
+        self.canvas.draw()
+        self.canvas.get_tk_widget().grid(column=1, padx=30, sticky="N")
+        self.bar = ttk.Progressbar(self, orient='horizontal',
+                                   mode='determinate', length=400)
+        self.bar.grid(columnspan=2, row=0, sticky="n", pady=30)
         # current value label
         current_value_label = ttk.Label(
             self,
             text='Current Value:'
         )
+        left_label = ttk.Label(self, text='ripeness')
 
+
+        left_label.grid(row=0, sticky = "E")
         current_value_label.grid(
             row=1,
             columnspan=2,
             sticky='n',
             ipadx=10,
             ipady=10
-        )
-
-        # value label
-        value_label = ttk.Label(
-            self,
-            text=get_current_value()
-        )
-        value_label.grid(
-            row=2,
-            columnspan=2,
-            sticky='n'
         )
 
     # plot the data with matplotlib
@@ -114,15 +74,22 @@ class App(tk.Tk):
         self.plot1.set_ylim(vmin*0.9, vmax*1.1)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(column=1, padx=30, sticky="N")
-    
+
     # runs script to collect data
     def button_clicked(self):
         get_data.get_data()
         sleep(2)
         self.measurement = algorithm.make_dictionary()
         self.plot_data()
-
-
+        raw = self.measurement[10000]
+        if raw > self.HIGH:
+            value = 20
+        elif raw < self.LOW:
+            value = 50
+        else:
+            value = 80
+        self.bar['value'] = value
+        
 if __name__ == "__main__":
     app = App()
     app.mainloop()
